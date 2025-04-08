@@ -14,8 +14,6 @@ on:
 # Définition des permissions nécessaires
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 # Configuration des variables d'environnement
 env:
@@ -60,19 +58,17 @@ jobs:
         echo "Construction de la documentation..."
         mkdocs build --verbose
         
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-      
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: './site'
-        
     - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
-      
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./site
+        force_orphan: true
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_message: 'Déploiement automatique de la documentation'
+        
     - name: Show deployment URL
       run: |
         echo "Documentation déployée avec succès!"
-        echo "URL: ${{ steps.deployment.outputs.page_url }}"
+        echo "URL: https://casius999.github.io/PattesThai/"
