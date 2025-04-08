@@ -1,0 +1,78 @@
+name: Security Analysis
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'  # Exécution hebdomadaire, chaque dimanche à minuit
+  workflow_dispatch:  # Permet l'exécution manuelle
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  security:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install bandit safety
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    # Analyse de sécurité avec Bandit
+    - name: Run Bandit Security Analysis
+      run: |
+        mkdir -p security-reports
+        bandit -r . -x tests,venv -f json -o security-reports/bandit-report.json || true
+        echo "Résultats de l'analyse Bandit:"
+        if [ -f security-reports/bandit-report.json ]; then
+          cat security-reports/bandit-report.json | jq '.results | length'
+          echo "Voir le rapport complet dans les artefacts"
+        else
+          echo "Aucun problème détecté par Bandit"
+        fi
+
+    # Analyse des dépendances avec Safety
+    - name: Check Dependencies with Safety
+      run: |
+        mkdir -p security-reports
+        safety check --json > security-reports/safety-report.json || true
+        echo "Résultats de l'analyse Safety:"
+        if [ -f security-reports/safety-report.json ]; then
+          cat security-reports/safety-report.json | jq 'length'
+          echo "Voir le rapport complet dans les artefacts"
+        else
+          echo "Aucune vulnérabilité détectée dans les dépendances"
+        fi
+
+    # Upload des rapports de sécurité
+    - name: Upload security reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-reports
+        path: security-reports/
+        retention-days: 30
+
+    # Alerte en cas de problème grave
+    - name: Check for critical issues
+      run: |
+        if [ -f security-reports/bandit-report.json ]; then
+          CRITICAL=$(cat security-reports/bandit-report.json | jq '.results[] | select(.issue_severity == "HIGH") | .issue_text' | wc -l)
+          if [ $CRITICAL -gt 0 ]; then
+            echo "::warning::$CRITICAL problèmes de sécurité critiques détectés! Vérifiez les rapports de sécurité pour plus de détails."
+          fi
+        fi
