@@ -3,6 +3,8 @@
 ![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Status](https://img.shields.io/badge/status-En%20d%C3%A9veloppement-orange.svg)
+![Workflow](https://github.com/casius999/PattesThai/actions/workflows/main.yml/badge.svg)
+![Documentation](https://github.com/casius999/PattesThai/actions/workflows/deploy-docs.yml/badge.svg)
 
 ## Projet 100% Réel et Transparent
 
@@ -37,6 +39,47 @@ Une part importante de notre stratégie est la diffusion virale sur TikTok et au
 - `/scripts/` - Scripts d'automatisation (collecte de données, génération de rapports, etc.)
 - `/tests/` - Tests unitaires et d'intégration
 
+## Installation et Configuration
+
+### Prérequis
+- Python 3.11 ou supérieur
+- Git
+- Accès à GitHub Actions
+
+### Installation locale
+1. Clonez le dépôt
+   ```bash
+   git clone https://github.com/Casius999/PattesThai.git
+   cd PattesThai
+   ```
+
+2. Créez un environnement virtuel
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Sous Windows: venv\Scripts\activate
+   ```
+
+3. Installez les dépendances
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Configuration des clés API
+Pour utiliser toutes les fonctionnalités du projet, vous devrez configurer les secrets suivants dans votre dépôt GitHub :
+
+1. `GOFUNDME_API_KEY` - Clé d'API pour accéder aux données de la campagne GoFundMe
+2. `OPENAI_API_KEY` - Clé d'API pour générer du contenu TikTok avec l'IA
+
+Pour configurer ces secrets, allez dans `Settings > Secrets and variables > Actions` de votre dépôt GitHub.
+
+## Exécution des Workflows
+
+Les workflows sont configurés pour s'exécuter automatiquement sur certains événements, mais vous pouvez aussi les déclencher manuellement :
+
+1. Allez dans l'onglet "Actions" du dépôt
+2. Sélectionnez le workflow que vous souhaitez exécuter
+3. Cliquez sur "Run workflow" et sélectionnez la branche
+
 ## Contribuer
 
 Nous accueillons toute aide sur ce projet! Voici comment vous pouvez contribuer:
@@ -46,6 +89,8 @@ Nous accueillons toute aide sur ce projet! Voici comment vous pouvez contribuer:
 3. Committer vos changements (`git commit -m 'Add some amazing feature'`)
 4. Pousser vers la branche (`git push origin feature/amazing-feature`)
 5. Ouvrir une Pull Request
+
+Plus de détails dans [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Licence
 
