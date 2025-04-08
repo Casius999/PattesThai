@@ -1,0 +1,68 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Environment variables
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Virtual environment
+env/
+venv/
+.env/
+.venv/
+
+# Documentation build
+site/
+docs/_build/
+
+# MkDocs
+.cache/
+
+# Testing
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+tests/.pytest_cache/
+coverage.xml
+*.cover
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.pydevproject
+.settings/
+
+# Project specific
+output/
+reports/
+data/
+docs/campaign/data/
+secrets.json
